@@ -7,24 +7,24 @@ public class CameraController : MonoBehaviour
     private Vector3 offset;
 
     [SerializeField]
-    private GameObject unitychan;
+    private GameObject uni;
 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        unitychan = GameObject.Find("unitychan");
+        uni = GameObject.Find("unitychan");
 
-        offset = transform.position - unitychan.transform.position;
+        offset = transform.position - uni.transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(unitychan != null)
+        if(uni != null)
         {
-            transform.position = unitychan.transform.position + offset;
+            transform.position = uni.transform.position + offset;
         }
     }
 }
