@@ -4,33 +4,47 @@ using UnityEngine;
 
 public class WeaponPositionAdjust : MonoBehaviour
 {
-    private Vector3 tran;
-    private double x = -0.01; //武器の位置をダブル型で入れる
-    private double y = -0.05;
-    private double z = 0.004;
+    private Vector3 weaponPos;
+    private float x = -0.01f; //武器の位置をダブル型で入れる
+    private float y = -0.05f;
+    private float z = 0.004f;
 
     private Vector3 angle;//角度を調整
+
+    private bool weapon;
 
     // Start is called before the first frame update
     void Start()
     {
-        tran = this.gameObject.transform.position;
+        weaponPos= this.gameObject.transform.position;
 
-        angle = transform.eulerAngles;
+        //angle = transform.eulerAngles;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.G))
+        if(Input.GetKeyDown(KeyCode.G)　&&　weapon ==false)
         {
-            //tran = new Vector3( x, y, z);
-            Debug.Log(tran);
+            weapon = true;
 
-            transform.eulerAngles = new Vector3(0,120, 0);
+            weaponPos = new Vector3( x, y, z);
+            Debug.Log("動く");
+
+            //transform.eulerAngles = new Vector3(0,120, 0);
+
+            transform.Rotate(0, 30, 0);
 
             Debug.Log(transform.eulerAngles);
 
+            return;
+        }
+        else if(Input.GetKeyDown(KeyCode.G) && weapon == true)
+        {
+            weapon = false;
+
+            transform.Rotate(0, -30, 0);
+            Debug.Log("戻る");
         }
     }
 }
