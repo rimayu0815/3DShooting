@@ -73,7 +73,6 @@ public class GunIdle : MonoBehaviour
                 animator.SetBool("GunFire", false);
             }
         }
-
     }
         
 }
