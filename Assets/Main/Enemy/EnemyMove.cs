@@ -4,64 +4,93 @@ using UnityEngine;
 
 public class EnemyMove : MonoBehaviour
 {
-    private CharacterController enemyController;
+    private CharacterController enemyController;//キャラクターのコントローラー
 
-    private Animator animator;
+    private Animator animator;//アニメーター
 
-    private Vector3 destination;
+    private Vector3 destination;//目的地
 
     [SerializeField]
-    private float walkSpeed = 1.0f;
+    private float walkSpeed = 1.0f;//歩くスピード
 
-    private Vector3 velocity;
+    private Vector3 velocity;//速度
 
-    private Vector3 direction;
+    private Vector3 direction;//方向
 
-    private bool arrived = false;
+    private bool arrived = false;//目的地に到着したかを判断
 
-    private Vector3 startPosition;
+    private SetPosition setPosition;//SetPosition スクリプトを参照するために
+
+    [SerializeField]
+    private float waitTime = 5f;//待機時間
+
+    private float elapsedTime;//経過時間
 
 
     // Start is called before the first frame update
     void Start()
     {
-        enemyController = GetComponent<CharacterController>();
+        enemyController = GetComponent<CharacterController>();//コントローラーを取得
 
-        animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();//アニメーターを取得
 
-        startPosition = transform.position;
+        setPosition = GetComponent<SetPosition>();//SetPositionスクリプトの値を取得
 
-        Vector2 randDestination = Random.insideUnitCircle * 8;
-        destination = startPosition + new Vector3(randDestination.x,0,randDestination.y);
+        setPosition.CreateRandomPosition();//SetPositionスクリプトのCreateRandomPositionメソッドを使用
 
-        velocity = Vector3.zero;
+        destination = setPosition.GetDestination();//SetPositionスクリプトのGetDestinationメソッドを使用して、destinationに値を代入
+
+        velocity = Vector3.zero;//速度を０にする
+
+        elapsedTime = 0f;//経過時間を０にする
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(enemyController.isGrounded)
+        if (arrived == false)//到着してなかったら
         {
-            velocity = Vector3.zero;
+            if (enemyController.isGrounded)//もしコントローラーが地面に接してたら
+            {
+                velocity = Vector3.zero;//速度を０にする
 
-            animator.SetFloat("Speed", 2.0f);
+                animator.SetFloat("Speed", 2.0f);//アニメーターのSetFloatメソッドを使用し、アニメーションのSpeedを2で動かす
 
-            direction = (destination - transform.position).normalized;
+                direction = (destination - transform.position).normalized;//目的地から今いる場所を引いて、進む方向を決める
 
-            transform.LookAt(new Vector3(destination.x, transform.position.y, destination.z));
+                transform.LookAt(new Vector3(destination.x, transform.position.y, destination.z));//目的地の方向を向く
 
-            velocity = direction * walkSpeed;
+                velocity = direction * walkSpeed;//速度を定める
 
-            Debug.Log(destination);
+                Debug.Log(destination);
+            }
+
+            velocity.y += Physics.gravity.y * Time.deltaTime;//時間経過に応じてｙ軸を調整
+            enemyController.Move(velocity * Time.deltaTime);//Moveメソッドを使用して時間経過に応じて移動
+
+            if (Vector3.Distance(transform.position, new Vector3(destination.x, transform.position.y, destination.z)) < 0.5f)//目的地までの距離が0.5未満になったら
+            {
+                arrived = true;//到着した判定にする
+
+                animator.SetFloat("Speed", 0.0f);//アニメーションのSpeedを０にする
+            }
+
+            elapsedTime += Time.deltaTime;//経過時間をはかる
+
+
+            if (elapsedTime > waitTime)//経過時間が待ち時間を超えたら
+            {
+                setPosition.CreateRandomPosition();//ランダムに位置を選出
+                
+                destination = setPosition.GetDestination();//目的と定める
+
+                arrived = false;//到着していない判定に戻して
+
+                elapsedTime = 0f;//経過時間を０にする
+
+            }
         }
 
-        velocity.y += Physics.gravity.y * Time.deltaTime;
-        enemyController.Move(velocity * Time.deltaTime);
-
-        if(Vector3.Distance(transform.position,new Vector3(destination.x,transform.position.y,destination.z))<0.5f)
-        {
-            arrived = true;
-            animator.SetFloat("Speed", 0.0f);
-        }
     }
+
 }
