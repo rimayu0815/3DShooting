@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class EnemyBullet : MonoBehaviour
 {
     private Rigidbody rbBullet;
 
@@ -11,38 +11,24 @@ public class Bullet : MonoBehaviour
 
     public float shotspeed;
 
-    private float timer;
-
-    public float shotTimer;
-
     [SerializeField]
     private Animator animator;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButton(1)&& animator.GetCurrentAnimatorStateInfo(0).IsName("AutoShot") == true)
-        {
-            timer += Time.deltaTime;
 
-            if(timer>shotTimer)
-            {
-                GenerateBullet();
-
-                timer = 0f;
-            }
-
-
-        }
     }
 
-    private void GenerateBullet()
+    public void GenerateBullet()
     {
         GameObject bullet = Instantiate(BulletPrefab, transform.position, transform.rotation);
 
@@ -55,3 +41,4 @@ public class Bullet : MonoBehaviour
         Destroy(bullet, 3.0f);
     }
 }
+

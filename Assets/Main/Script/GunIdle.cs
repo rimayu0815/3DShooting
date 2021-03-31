@@ -31,19 +31,19 @@ public class GunIdle : MonoBehaviour
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("IdleGun") == false )//パラメーター
             {
                 animator.SetBool("IdleGun", true);
-                Debug.Log(" True1 で通過");
+                //Debug.Log(" True1 で通過");
             }
 
             //二つ目の分岐
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("WalkFrontShoot") == true)
             {
                 animator.SetBool("IdleGun", false);
-                Debug.Log(" false で通過");
+                //Debug.Log(" false で通過");
             }
             else if(animator.GetCurrentAnimatorStateInfo(0).IsName("IdleGun") == true)
             {
                 animator.SetBool("IdleGun", false);
-                Debug.Log(" false1 で通過");
+                //Debug.Log(" false1 で通過");
             }
 
         }
@@ -55,7 +55,7 @@ public class GunIdle : MonoBehaviour
             if(animator.GetCurrentAnimatorStateInfo(0).IsName("AutoShot") == false && timer >1f)
             {
                 animator.SetBool("GunFire", true);
-                Debug.Log("true3で通過");
+               // Debug.Log("true3で通過");
             }
 
             //else if(animator.GetCurrentAnimatorStateInfo(0).IsName("AutoShot") == true)

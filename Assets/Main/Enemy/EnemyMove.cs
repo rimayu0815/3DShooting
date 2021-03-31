@@ -26,6 +26,29 @@ public class EnemyMove : MonoBehaviour
 
     private float elapsedTime;//経過時間
 
+    private bool searched= false;
+    public bool Searched
+     {
+        get
+        {
+            return this.searched;
+        }
+
+        private set
+        {
+            Searched = searched;
+        }
+    }
+
+    private GameObject target;  
+
+    [SerializeField]
+    private EnemyBullet enemyBullet;
+
+    private float timer;
+
+    public float shotTimer;
+
 
     // Start is called before the first frame update
     void Start()
@@ -62,7 +85,7 @@ public class EnemyMove : MonoBehaviour
 
                 velocity = direction * walkSpeed;//速度を定める
 
-                Debug.Log(destination);
+                //Debug.Log(destination);
             }
 
             velocity.y += Physics.gravity.y * Time.deltaTime;//時間経過に応じてｙ軸を調整
@@ -75,13 +98,17 @@ public class EnemyMove : MonoBehaviour
                 animator.SetFloat("Speed", 0.0f);//アニメーションのSpeedを０にする
             }
 
+
+        }
             elapsedTime += Time.deltaTime;//経過時間をはかる
 
 
+        if (searched == false)
+        {
             if (elapsedTime > waitTime)//経過時間が待ち時間を超えたら
             {
                 setPosition.CreateRandomPosition();//ランダムに位置を選出
-                
+
                 destination = setPosition.GetDestination();//目的と定める
 
                 arrived = false;//到着していない判定に戻して
@@ -91,6 +118,71 @@ public class EnemyMove : MonoBehaviour
             }
         }
 
+        if (target != null)
+        {
+            transform.LookAt(target.transform);
+            
+            timer += Time.deltaTime;
+
+            if (timer > shotTimer)
+            {
+                enemyBullet.GenerateBullet();
+
+                timer = 0f;
+            }
+
+        }
+
+    }
+
+    private void OnTriggerEnter(Collider col)
+    {
+        
+
+        if(col.gameObject.tag == "Player" )
+        {
+            target = col.gameObject;
+
+            velocity = Vector3.zero;//速度を０にする
+
+            animator.SetFloat("Speed", 0.0f);//アニメーションのSpeedを０にする
+
+            arrived = true;
+
+            searched = true;
+
+            Shot();
+        }
+    }
+
+    private void OnTriggerExit(Collider col)
+    {
+        
+
+        if (col.gameObject.tag == "Player")
+        {
+            velocity = Vector3.zero;//速度を０にする
+
+            animator.SetFloat("Speed", 0.0f);//アニメーションのSpeedを０にする
+
+            arrived = false;
+
+            searched = false;
+
+            target = null;
+
+            ShotCancel();
+        }
+    }
+
+    private void Shot()
+    {
+            animator.SetBool("Shot", true);
+    }
+
+    private void ShotCancel()
+    {
+        animator.SetBool("Shot", false);
     }
 
 }
