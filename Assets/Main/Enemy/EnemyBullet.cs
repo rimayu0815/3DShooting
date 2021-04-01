@@ -14,6 +14,8 @@ public class EnemyBullet : MonoBehaviour
     [SerializeField]
     private Animator animator;
 
+    private GameObject bullet;
+
 
 
     // Start is called before the first frame update
@@ -28,17 +30,27 @@ public class EnemyBullet : MonoBehaviour
 
     }
 
-    public void GenerateBullet()
+    public void GenerateBullet()//銃弾を作成
     {
-        GameObject bullet = Instantiate(BulletPrefab, transform.position, transform.rotation);
+        bullet = Instantiate(BulletPrefab, transform.position, transform.rotation);//銃弾を生成
 
-        rbBullet = bullet.GetComponent<Rigidbody>();
+        rbBullet = bullet.GetComponent<Rigidbody>();//物理演算追加
 
-        rbBullet.AddForce(bullet.transform.forward * shotspeed);
+        rbBullet.AddForce(bullet.transform.forward * shotspeed);//前方へと飛ばす
 
-        bullet.transform.Rotate(90, 0, 0);
+        bullet.transform.Rotate(90, 0, 0);//傾けて銃弾の向きを調整する
 
         Destroy(bullet, 3.0f);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Destroy(bullet);
+
+        if (other.gameObject.tag == "Player")
+        {
+            
+        }
     }
 }
 

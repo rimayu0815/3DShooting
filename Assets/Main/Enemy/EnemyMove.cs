@@ -40,7 +40,7 @@ public class EnemyMove : MonoBehaviour
         }
     }
 
-    private GameObject target;  
+    private GameObject player;  
 
     [SerializeField]
     private EnemyBullet enemyBullet;
@@ -48,6 +48,11 @@ public class EnemyMove : MonoBehaviour
     private float timer;
 
     public float shotTimer;
+
+    [SerializeField]
+    private GameObject enemy;
+
+    private GameObject fpsCamera;
 
 
     // Start is called before the first frame update
@@ -118,48 +123,49 @@ public class EnemyMove : MonoBehaviour
             }
         }
 
-        if (target != null)
+        if (player != null)//player変数に何か入ってたら
         {
-            transform.LookAt(target.transform);
+            transform.LookAt(player.transform.position);//そっちを向く
+
+            enemy.transform.Rotate(5, -2, 0);//傾ける　銃弾を真正面に飛ばすようにするためにしたけど修正がいる
             
-            timer += Time.deltaTime;
+            timer += Time.deltaTime;//銃弾の生成時間の間隔をあけるため
 
-            if (timer > shotTimer)
-            {
-                enemyBullet.GenerateBullet();
-
-                timer = 0f;
-            }
+            Shot();//撃つ
 
         }
 
     }
 
-    private void OnTriggerEnter(Collider col)
+    private void OnTriggerEnter(Collider col)//範囲内に入ったら
     {
         
 
-        if(col.gameObject.tag == "Player" )
+        if(col.gameObject.tag == "Player" )//プレイヤーのtagがついてるオブジェクトが入ったら
         {
-            target = col.gameObject;
+            player = col.gameObject;//そのオブジェクトをplayerにいれる、上記のtransform.LookAtで使うため
 
-            velocity = Vector3.zero;//速度を０にする
+            velocity = Vector3.zero;//速度を０にする、アニメーションの切り替えの際スムーズにするため　下も同様
 
-            animator.SetFloat("Speed", 0.0f);//アニメーションのSpeedを０にする
+            animator.SetFloat("Speed", 0.0f);//アニメーションのSpeedを０にする、上と同様
 
-            arrived = true;
+            arrived = true;//到着したことにして止まってもらうため
 
-            searched = true;
+            searched = true;//これでelapsedTimeが超えてもif分を動かさないため　、動こうとするのを止めておくため
 
-            Shot();
         }
+
+        //if (col.gameObject.tag == "FPSCamera")　//もしかしたらカメラの向きを見ればいけるかも　やっぱり傾けないと駄目でした
+        //{
+        //    fpsCamera = col.gameObject;
+        //}
     }
 
-    private void OnTriggerExit(Collider col)
+    private void OnTriggerExit(Collider col)//範囲外に出て行ったら
     {
         
 
-        if (col.gameObject.tag == "Player")
+        if (col.gameObject.tag == "Player")//要らないかもだけどとりあえずif文、これ以下全てリセットして元の状態に戻す
         {
             velocity = Vector3.zero;//速度を０にする
 
@@ -169,18 +175,28 @@ public class EnemyMove : MonoBehaviour
 
             searched = false;
 
-            target = null;
+            player = null;
 
-            ShotCancel();
+            ShotCancel();//撃つの中止
+
+
+            fpsCamera = null;//無理でした
         }
     }
 
-    private void Shot()
+    private void Shot()//アニメーションの切り替えと弾を作成
     {
             animator.SetBool("Shot", true);
+
+        if (timer > shotTimer)//timerが指定時間を超えたら
+        {
+            enemyBullet.GenerateBullet();//銃弾作成
+
+            timer = 0f;//リセット
+        }
     }
 
-    private void ShotCancel()
+    private void ShotCancel()//アニメーションの切り替え
     {
         animator.SetBool("Shot", false);
     }

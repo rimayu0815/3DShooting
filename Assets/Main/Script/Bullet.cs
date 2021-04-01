@@ -14,9 +14,11 @@ public class Bullet : MonoBehaviour
     private float timer;
 
     public float shotTimer;
-
+    
     [SerializeField]
     private Animator animator;
+
+    private GameObject bullet;
 
     // Start is called before the first frame update
     void Start()
@@ -44,7 +46,7 @@ public class Bullet : MonoBehaviour
 
     private void GenerateBullet()
     {
-        GameObject bullet = Instantiate(BulletPrefab, transform.position, transform.rotation);
+        bullet = Instantiate(BulletPrefab, transform.position, transform.rotation);
 
         rbBullet = bullet.GetComponent<Rigidbody>();
 
@@ -53,5 +55,11 @@ public class Bullet : MonoBehaviour
         bullet.transform.Rotate(90, 0, 0);
 
         Destroy(bullet, 3.0f);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+            Destroy(bullet);
+
     }
 }
