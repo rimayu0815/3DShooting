@@ -50,6 +50,11 @@ namespace UnityChan
 		static int jumpState = Animator.StringToHash ("Base Layer.Jump");
 		static int restState = Animator.StringToHash ("Base Layer.Rest");
 
+
+		[SerializeField]
+		private GameMaster gameMaster;
+
+
 		// 初期化
 		void Start ()
 		{
@@ -63,6 +68,7 @@ namespace UnityChan
 			// CapsuleColliderコンポーネントのHeight、Centerの初期値を保存する
 			orgColHight = col.height;
 			orgVectColCenter = col.center;
+
 		}
 	
 	
@@ -197,5 +203,17 @@ namespace UnityChan
 			col.height = orgColHight;
 			col.center = orgVectColCenter;
 		}
-	}
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if(other.CompareTag("EnemyBullet"))
+            {
+				//Debug.Log("通過");
+				Destroy(other.gameObject);
+				gameMaster.DecreasePlayerHP();
+            }
+        }
+    }
+	
+		
 }

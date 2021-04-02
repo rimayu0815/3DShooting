@@ -88,6 +88,8 @@ public class EnemyMove : MonoBehaviour
 
                 transform.LookAt(new Vector3(destination.x, transform.position.y, destination.z));//目的地の方向を向く
 
+                //Debug.Log(new Vector3(destination.x, transform.position.y, destination.z));
+
                 velocity = direction * walkSpeed;//速度を定める
 
                 //Debug.Log(destination);
@@ -126,6 +128,8 @@ public class EnemyMove : MonoBehaviour
         if (player != null)//player変数に何か入ってたら
         {
             transform.LookAt(player.transform.position);//そっちを向く
+
+            //Debug.Log(player.transform.position);
 
             enemy.transform.Rotate(5, -2, 0);//傾ける　銃弾を真正面に飛ばすようにするためにしたけど修正がいる
             
@@ -167,20 +171,20 @@ public class EnemyMove : MonoBehaviour
 
         if (col.gameObject.tag == "Player")//要らないかもだけどとりあえずif文、これ以下全てリセットして元の状態に戻す
         {
-            velocity = Vector3.zero;//速度を０にする
+            //velocity = Vector3.zero;//速度を０にする
 
-            animator.SetFloat("Speed", 0.0f);//アニメーションのSpeedを０にする
+            //animator.SetFloat("Speed", 0.0f);//アニメーションのSpeedを０にする
 
-            arrived = false;
+            //arrived = false;
 
-            searched = false;
+            //searched = false;
 
-            player = null;
+            //player = null;
 
-            ShotCancel();//撃つの中止
+            StartCoroutine(ShotCancel());//撃つの中止
 
 
-            fpsCamera = null;//無理でした
+            //fpsCamera = null;//無理でした
         }
     }
 
@@ -196,9 +200,22 @@ public class EnemyMove : MonoBehaviour
         }
     }
 
-    private void ShotCancel()//アニメーションの切り替え
+    private IEnumerator ShotCancel()//アニメーションの切り替え
     {
+        yield return new WaitForSeconds(2.0f);
+
+        velocity = Vector3.zero;//速度を０にする
+
+        animator.SetFloat("Speed", 0.0f);//アニメーションのSpeedを０にする
+
+        arrived = false;
+
+        searched = false;
+
+        player = null;
+
         animator.SetBool("Shot", false);
     }
 
+    
 }
