@@ -53,8 +53,6 @@ public class GameMaster : MonoBehaviour
         if(greenGauge.fillAmount <= 0.0f)
         {
             Destroy(playerHPGauge, 1.0f);
-
-
         }
     }
 }
