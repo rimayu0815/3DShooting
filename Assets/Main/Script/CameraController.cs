@@ -32,6 +32,10 @@ public class CameraController : MonoBehaviour
         {
             transform.position = uni.transform.position + offset;
         }
+        else
+        {
+            this.gameObject.SetActive(false);
+        }
 
         cameraChange();
     }

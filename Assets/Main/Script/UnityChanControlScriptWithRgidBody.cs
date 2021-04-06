@@ -211,6 +211,8 @@ namespace UnityChan
 				//Debug.Log("通過");
 				Destroy(other.gameObject);
 				gameMaster.DecreasePlayerHP();
+
+				
             }
         }
     }
