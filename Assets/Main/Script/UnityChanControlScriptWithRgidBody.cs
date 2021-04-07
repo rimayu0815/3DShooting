@@ -209,7 +209,7 @@ namespace UnityChan
             if(other.CompareTag("EnemyBullet"))
             {
 				//Debug.Log("通過");
-				Destroy(other.gameObject);
+				Destroy(other.gameObject,1.0f);
 				gameMaster.DecreasePlayerHP();
 
 				

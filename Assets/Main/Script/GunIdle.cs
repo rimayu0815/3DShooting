@@ -7,7 +7,7 @@ public class GunIdle : MonoBehaviour
     private Animator animator;
 
     [SerializeField]
-	public UnityChan.UnityChanControlScriptWithRgidBody uni;
+	private UnityChan.UnityChanControlScriptWithRgidBody uni;
 
     [SerializeField]
     private Bullet bullet;
