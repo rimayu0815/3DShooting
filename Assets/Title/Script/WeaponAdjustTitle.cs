@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponPositionAdjust : MonoBehaviour
+public class WeaponAdjustTitle: MonoBehaviour
 {
     private Vector3 weaponPos;
     private float x = -0.01f; //武器の位置をダブル型で入れる
@@ -11,39 +11,45 @@ public class WeaponPositionAdjust : MonoBehaviour
 
     private Vector3 angle;//角度を調整
 
-    private bool weapon;
+    [SerializeField]
+    private UnitychanTitle unitychanTitle;
 
     // Start is called before the first frame update
     void Start()
     {
-        weaponPos= this.gameObject.transform.position;
-
-        //angle = transform.eulerAngles;
+        weaponPos = this.gameObject.transform.position;
     }
 
     // Update is called once per frame
-    void Update()　　//変更必須
+    void Update()
     {
-        if(Input.GetKeyDown(KeyCode.G)　&&　weapon ==false)
+        if (unitychanTitle.weaponAdjust == true)
         {
-            weapon = true;
-
-            weaponPos = new Vector3( x, y, z);
+            weaponPos = new Vector3(x, y, z);
             Debug.Log("動く");
 
             //transform.eulerAngles = new Vector3(0,120, 0);
 
             transform.Rotate(0, 30, 0);
 
+            if(transform.rotation.y > 30.0f)
+            {
+                transform.eulerAngles=new Vector3(0, 30);
+            }
+
             Debug.Log(transform.eulerAngles);
 
             return;
         }
-        else if(Input.GetKeyDown(KeyCode.G) && weapon == true)
+        else 
         {
-            weapon = false;
 
             transform.Rotate(0, -30, 0);
+
+            if(transform.rotation.y < 0)
+            {
+                transform.eulerAngles = new Vector3(0, 0);
+            }
             Debug.Log("戻る");
         }
     }
