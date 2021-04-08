@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameMaster : MonoBehaviour
 {
@@ -26,12 +27,12 @@ public class GameMaster : MonoBehaviour
     [SerializeField]
     private GameObject playerHPGauge;
 
-    //private GameObject player;
+    private GameObject player;
 
     // Start is called before the first frame update
     void Start()
     {
-        //player = GameObject.Find("unitychan");
+        player = GameObject.Find("unitychan");
     }
 
     // Update is called once per frame
@@ -54,7 +55,14 @@ public class GameMaster : MonoBehaviour
         {
             Destroy(playerHPGauge, 1.0f);
 
+            player.SetActive(false);
 
+            Invoke("GoToGameOver", 1.5f);
         }
+    }
+
+    void GoToGameOver()
+    {
+        SceneManager.LoadScene("GameOver");
     }
 }
