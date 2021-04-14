@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameOver : MonoBehaviour
+public class TitleMaster : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -14,7 +14,7 @@ public class GameOver : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             SceneChange();
         }
@@ -22,6 +22,7 @@ public class GameOver : MonoBehaviour
 
     public void SceneChange()
     {
-        SceneManager.LoadScene("Title");
+        SceneManager.LoadScene("Main");
     }
+
 }
