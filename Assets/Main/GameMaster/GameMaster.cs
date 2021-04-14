@@ -29,6 +29,9 @@ public class GameMaster : MonoBehaviour
 
     private GameObject player;
 
+    public bool gameOver = false;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,6 +61,8 @@ public class GameMaster : MonoBehaviour
             player.SetActive(false);
 
             Invoke("GoToGameOver", 1.5f);
+
+            gameOver = true;
         }
     }
 

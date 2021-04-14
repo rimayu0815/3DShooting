@@ -22,7 +22,7 @@ public class WeaponPositionAdjust : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void Update()　　//変更必須
     {
         if(Input.GetKeyDown(KeyCode.G)　&&　weapon ==false)
         {

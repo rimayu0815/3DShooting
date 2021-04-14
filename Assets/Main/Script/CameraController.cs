@@ -15,6 +15,9 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private Camera fpsCamera;
 
+    [SerializeField]
+    private GameMaster gameMaster;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,9 +35,12 @@ public class CameraController : MonoBehaviour
         {
             transform.position = uni.transform.position + offset;
         }
-        else
+        
+        if(gameMaster.gameOver == true)
         {
-            this.gameObject.SetActive(false);
+            fpsCamera.enabled = false;
+
+            mainCamera.enabled = true;
         }
 
         cameraChange();
