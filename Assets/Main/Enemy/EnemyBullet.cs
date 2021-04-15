@@ -45,12 +45,8 @@ public class EnemyBullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //Destroy(bullet);
+        Destroy(bullet);
 
-        if (other.gameObject.tag == "Player")
-        {
-            
-        }
     }
 }
 

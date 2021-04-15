@@ -54,6 +54,9 @@ public class EnemyMove : MonoBehaviour
 
     private GameObject fpsCamera;
 
+    [SerializeField]
+    private GameMaster gameMaster;
+
 
     // Start is called before the first frame update
     void Start()
@@ -163,6 +166,16 @@ public class EnemyMove : MonoBehaviour
         //{
         //    fpsCamera = col.gameObject;
         //}
+
+            if (col.CompareTag("Bullet"))
+            {
+                //Debug.Log("通過");
+
+                gameMaster.DecreasePlayerHP();
+
+
+            }
+        
     }
 
     private void OnTriggerExit(Collider col)//範囲外に出て行ったら
@@ -216,6 +229,8 @@ public class EnemyMove : MonoBehaviour
 
         animator.SetBool("Shot", false);
     }
+
+
 
     
 }
