@@ -18,6 +18,8 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private GameMaster gameMaster;
 
+    public bool mainGun = true;//銃が映るように
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,7 +58,9 @@ public class CameraController : MonoBehaviour
 
                 mainCamera.enabled = true;
 
-                Debug.Log("動く");
+                Debug.Log(mainGun);
+
+                mainGun = false;
             }
             else if(mainCamera.enabled == true)
             {
@@ -64,7 +68,9 @@ public class CameraController : MonoBehaviour
 
                 fpsCamera.enabled = true;
 
-                Debug.Log("戻す");
+                Debug.Log(mainGun);
+
+                mainGun = true;
             }
         }
 

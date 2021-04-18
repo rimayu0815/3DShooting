@@ -52,17 +52,25 @@ public class GameMaster : MonoBehaviour
     private Sprite redMobSprite;
 
 
+    [SerializeField]
+    private CameraController cameraController;
+
+    private GameObject maingun;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("unitychan");
+
+        maingun = GameObject.Find("MainGun");
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        ReflectGun();
     }
 
     public void DecreasePlayerHP()
@@ -109,8 +117,23 @@ public class GameMaster : MonoBehaviour
         }
     }
 
-        void GoToGameOver()
+    public    void GoToGameOver()
     {
         SceneManager.LoadScene("GameOver");
     }
+
+    public void ReflectGun()
+    {
+        if (cameraController.mainGun == true)
+        {
+            maingun.SetActive(true);
+            Debug.Log("動く");
+        }
+        else if (cameraController.mainGun == false)
+        {
+            maingun.SetActive(false);
+            Debug.Log("戻す");
+        }
+    }
+
 }
