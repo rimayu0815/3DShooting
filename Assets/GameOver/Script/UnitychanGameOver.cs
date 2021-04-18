@@ -21,7 +21,7 @@ public class UnitychanGameOver : MonoBehaviour
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Die") == false)
         {
             anim.SetBool("Destroy", true);
-            Debug.Log("true");
+
         }
 
     }
