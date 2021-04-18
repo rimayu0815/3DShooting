@@ -58,8 +58,6 @@ public class CameraController : MonoBehaviour
 
                 mainCamera.enabled = true;
 
-                Debug.Log(mainGun);
-
                 mainGun = false;
             }
             else if(mainCamera.enabled == true)
@@ -67,8 +65,6 @@ public class CameraController : MonoBehaviour
                 mainCamera.enabled = false;
 
                 fpsCamera.enabled = true;
-
-                Debug.Log(mainGun);
 
                 mainGun = true;
             }
