@@ -29,13 +29,13 @@ public class WeaponPositionAdjust : MonoBehaviour
             weapon = true;
 
             weaponPos = new Vector3( x, y, z);
-            Debug.Log("動く");
+            //Debug.Log("動く");
 
             //transform.eulerAngles = new Vector3(0,120, 0);
 
             transform.Rotate(0, 30, 0);
 
-            Debug.Log(transform.eulerAngles);
+            //Debug.Log(transform.eulerAngles);
 
             return;
         }
@@ -44,7 +44,7 @@ public class WeaponPositionAdjust : MonoBehaviour
             weapon = false;
 
             transform.Rotate(0, -30, 0);
-            Debug.Log("戻る");
+            //Debug.Log("戻る");
         }
     }
 }

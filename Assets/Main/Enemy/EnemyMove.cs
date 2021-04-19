@@ -57,6 +57,9 @@ public class EnemyMove : MonoBehaviour
     [SerializeField]
     private GameMaster gameMaster;
 
+    [SerializeField]
+    private Sensor sensor;
+
 
     // Start is called before the first frame update
     void Start()
@@ -128,9 +131,9 @@ public class EnemyMove : MonoBehaviour
             }
         }
 
-        if (player != null)//player変数に何か入ってたら
+        if (sensor.player != null)//player変数に何か入ってたら
         {
-            transform.LookAt(player.transform.position);//そっちを向く
+            transform.LookAt(sensor.player.transform.position);//そっちを向く
 
             //Debug.Log(player.transform.position);
 
@@ -142,25 +145,36 @@ public class EnemyMove : MonoBehaviour
 
         }
 
+        if(sensor.enterPlayer == true)
+        {
+            velocity = Vector3.zero;
+
+            animator.SetFloat("Speed", 0.0f);
+
+            arrived = true;
+
+            searched = true;
+        }
+
     }
 
     private void OnTriggerEnter(Collider col)//範囲内に入ったら
     {
         
 
-        if(col.gameObject.tag == "Player" )//プレイヤーのtagがついてるオブジェクトが入ったら
-        {
-            player = col.gameObject;//そのオブジェクトをplayerにいれる、上記のtransform.LookAtで使うため
+        //if(col.gameObject.tag == "Player" )//プレイヤーのtagがついてるオブジェクトが入ったら
+        //{
+        //    player = col.gameObject;//そのオブジェクトをplayerにいれる、上記のtransform.LookAtで使うため
 
-            velocity = Vector3.zero;//速度を０にする、アニメーションの切り替えの際スムーズにするため　下も同様
+        //    velocity = Vector3.zero;//速度を０にする、アニメーションの切り替えの際スムーズにするため　下も同様
 
-            animator.SetFloat("Speed", 0.0f);//アニメーションのSpeedを０にする、上と同様
+        //    animator.SetFloat("Speed", 0.0f);//アニメーションのSpeedを０にする、上と同様
 
-            arrived = true;//到着したことにして止まってもらうため
+        //    arrived = true;//到着したことにして止まってもらうため
 
-            searched = true;//これでelapsedTimeが超えてもif分を動かさないため　、動こうとするのを止めておくため
+        //    searched = true;//これでelapsedTimeが超えてもif分を動かさないため　、動こうとするのを止めておくため
 
-        }
+        //}
 
         //if (col.gameObject.tag == "FPSCamera")　//もしかしたらカメラの向きを見ればいけるかも　やっぱり傾けないと駄目でした
         //{
@@ -169,9 +183,11 @@ public class EnemyMove : MonoBehaviour
 
             if (col.CompareTag("Bullet"))
             {
-                //Debug.Log("通過");
+                Debug.Log("通過");
 
-                gameMaster.DecreasePlayerHP();
+                gameMaster.DecreaseMobHP();
+
+            Destroy(col.gameObject);
 
 
             }
@@ -213,7 +229,7 @@ public class EnemyMove : MonoBehaviour
         }
     }
 
-    private IEnumerator ShotCancel()//アニメーションの切り替え
+    public IEnumerator ShotCancel()//アニメーションの切り替え
     {
         yield return new WaitForSeconds(2.0f);
 

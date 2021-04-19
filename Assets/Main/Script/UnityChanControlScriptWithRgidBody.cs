@@ -212,6 +212,8 @@ namespace UnityChan
 
 				gameMaster.DecreasePlayerHP();
 
+				Destroy(other.gameObject);
+
 				
             }
         }

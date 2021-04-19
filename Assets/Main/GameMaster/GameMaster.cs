@@ -127,12 +127,12 @@ public class GameMaster : MonoBehaviour
         if (cameraController.mainGun == true)
         {
             maingun.SetActive(true);
-            Debug.Log("動く");
+            //Debug.Log("動く");
         }
         else if (cameraController.mainGun == false)
         {
             maingun.SetActive(false);
-            Debug.Log("戻す");
+            //Debug.Log("戻す");
         }
     }
 
