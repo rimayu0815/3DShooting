@@ -3,21 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameOver : MonoBehaviour
+public class Clear : MonoBehaviour
 {
-    public bool gameOver;
-
+    public bool clear;
 
     // Start is called before the first frame update
     void Start()
     {
-        gameOver = true;
+        clear = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             SceneChange();
         }
@@ -27,6 +26,6 @@ public class GameOver : MonoBehaviour
     {
         SceneManager.LoadScene("Title");
 
-        gameOver = false;
+        clear = false;
     }
 }
