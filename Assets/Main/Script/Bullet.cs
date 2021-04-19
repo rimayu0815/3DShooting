@@ -57,9 +57,5 @@ public class Bullet : MonoBehaviour
         Destroy(bullet, 3.0f);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-            Destroy(bullet);
 
-    }
 }

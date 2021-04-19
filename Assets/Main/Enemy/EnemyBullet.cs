@@ -43,10 +43,10 @@ public class EnemyBullet : MonoBehaviour
         Destroy(bullet, 3.0f);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Destroy(bullet);
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    Destroy(bullet);
 
-    }
+    //}
 }
 
